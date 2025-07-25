@@ -85,12 +85,13 @@ Denoising World Model Learning(DWL) presents an advanced sim-to-real framework t
 # Launching PPO Policy Training for 'v1' Across 4096 Environments
 # This command initiates the PPO algorithm-based training for the humanoid task.
 python scripts/train.py --task=humanoid_ppo --run_name v1 --headless --num_envs 4096
+python humanoid/scripts/train.py --task=G1_PPO #Bash this command will run with a visuable gym. You can just see the running process.
 
 # Evaluating the Trained PPO Policy 'v1'
 # This command loads the 'v1' policy for performance assessment in its environment. 
 # Additionally, it automatically exports a JIT model, suitable for deployment purposes.
 python scripts/play.py --task=humanoid_ppo --run_name v1
-
+python humanoid/scripts/play.py --task=G1_PPO
 # Implementing Simulation-to-Simulation Model Transformation
 # This command facilitates a sim-to-sim transformation using exported 'v1' policy.
 # You have to run play.py first to get the JIT model and use it with sim2sim.py

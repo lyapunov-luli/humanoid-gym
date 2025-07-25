@@ -71,6 +71,8 @@ class OnPolicyRunner:
         self.alg: PPO = alg_class(actor_critic, device=self.device, **self.alg_cfg)
         self.num_steps_per_env = self.cfg["num_steps_per_env"]
         self.save_interval = self.cfg["save_interval"]
+        self.length = 0
+        self.step = 0
 
         # init storage and model
         self.alg.init_storage(
@@ -94,10 +96,11 @@ class OnPolicyRunner:
         # initialize writer
         if self.log_dir is not None and self.writer is None:
             wandb.init(
-                project="XBot",
-                sync_tensorboard=True,
-                name=self.wandb_run_name,
-                config=self.all_cfg,
+                # project="G1Bot",
+                # sync_tensorboard=True,
+                # name=self.wandb_run_name,
+                # config=self.all_cfg,
+                mode="disabled"
             )
             self.writer = SummaryWriter(log_dir=self.log_dir, flush_secs=10)
         if init_at_random_ep_len:
@@ -234,7 +237,8 @@ class OnPolicyRunner:
                 statistics.mean(locs["lenbuffer"]),
                 self.tot_time,
             )
-
+        self.length = statistics.mean(locs["lenbuffer"])
+        self.step = locs["it"]
         str = f" \033[1m Learning iteration {locs['it']}/{self.current_learning_iteration + locs['num_learning_iterations']} \033[0m "
 
         if len(locs["rewbuffer"]) > 0:
@@ -275,6 +279,13 @@ class OnPolicyRunner:
         )
         print(log_string)
 
+    def length(self):
+        length = self.length
+        return length
+    def step(self):
+        step = self.step
+        return step
+    
     def save(self, path, infos=None):
         torch.save(
             {

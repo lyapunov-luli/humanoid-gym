@@ -36,7 +36,28 @@ from .base.legged_robot import LeggedRobot
 from .custom.humanoid_config import XBotLCfg, XBotLCfgPPO
 from .custom.humanoid_env import XBotLFreeEnv
 
+from .G1.g1_config import G1Cfg, G1CfgPPO
+from .G1.g1_env import G1FreeEnv
+
+from .dexbot.dexbot_config import DexCfg,DexCfgPPO
+from .dexbot.dexbot_env import DexFreeEnv
+
+from .dexbot.dexbot_DU_config import DexDUCfg,DexDUCfgPPO
+from .dexbot.dexbot_DU_env import DexDUFreeEnv
+
+from .test.test_config import testCfg,testCfgPPO
+from .test.test_env import testFreeEnv
+
+from .down_up_catch.g1_DU_config import G1DUCfg, G1DUCfgPPO
+from .down_up_catch.g1_DU_env import G1DUFreeEnv
+
+
 from humanoid.utils.task_registry import task_registry
 
 
 task_registry.register( "humanoid_ppo", XBotLFreeEnv, XBotLCfg(), XBotLCfgPPO() )
+task_registry.register("G1_PPO", G1FreeEnv, G1Cfg(), G1CfgPPO() )
+task_registry.register("dex_ppo",DexFreeEnv,DexCfg(),DexCfgPPO())
+task_registry.register("dex_DU_ppo",DexDUFreeEnv,DexDUCfg(),DexDUCfgPPO())
+task_registry.register("test_ppo",testFreeEnv,testCfg(),testCfgPPO())
+task_registry.register("G1_DU_PPO", G1DUFreeEnv, G1DUCfg(), G1DUCfgPPO() )
